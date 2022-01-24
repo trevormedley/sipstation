@@ -8,7 +8,9 @@ function App() {
       <NavBar />
       <div className="relative min-h-screen flex">
         <NavLeft />
-        <DrinkList />
+        <div className="w-full">
+          <DrinkList />
+        </div>
       </div>
     </div>
   );
