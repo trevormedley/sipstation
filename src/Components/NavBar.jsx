@@ -3,7 +3,7 @@ import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 
 function NavBar() {
   return (
-    <div className="w-full bg-[#27292C]  p-8 flex flex-row items-center justify-between sticky top-0">
+    <div className="w-full bg-[#27292C]  p-8 flex flex-row items-center justify-between sticky top-0 z-10">
       <div>
         <h2 className="text-white font-extrabold">SipStation</h2>
       </div>

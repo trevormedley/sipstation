@@ -1,13 +1,12 @@
 import React from "react";
 import Modal from "react-modal";
-import { useState } from "react";
 
-function DrinkModal() {
+function DrinkModal({name}) {
 
   return (
-    <div>
+    <div className="text-white z-1">
       <Modal>
-        <h1>hey</h1>
+        <h1>HI</h1>
       </Modal>
     </div>
   );

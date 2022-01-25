@@ -1,9 +1,9 @@
 import React from "react";
 import { FiFilter, FiSearch } from "react-icons/fi";
 
-function SearchBar({ popularHandler }) {
+function SearchBar({ popularHandler, filterToggle }) {
   return (
-    <div className="flex flex-row justify-between mb-10 text-white items-center">
+    <div className="flex flex-row justify-between mb-8 text-white items-center">
       <div className="flex flex-row">
         <select name="sort" id="sort" className="px-2 py-2 bg-[#42454B] rounded-lg mr-4">
             <option value="recent">Recently Added</option>
@@ -25,7 +25,7 @@ function SearchBar({ popularHandler }) {
           Popular Drinks
         </button>
       </div>
-      <FiFilter />
+      <FiFilter onClick={filterToggle} className="hover: cursor-pointer"/>
     </div>
   );
 }

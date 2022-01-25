@@ -1,9 +1,12 @@
 import React from "react";
 import { FiBookmark } from "react-icons/fi";
 
-function DrinkCard({ name, category, image }) {
+function DrinkCard({ name, category, image, clickHandler, tags }) {
+  
+  // const tagsArr = tags.split(',')
+
   return (
-    <div className="group hover:cursor-pointer">
+    <div className="group hover:cursor-pointer" onClick={clickHandler}>
       <img
         className="rounded-md object-cover object-center h-40 w-full mb-3 group-hover:ease-in-out duration-300 group-hover:saturate-150"
         src={image}
@@ -14,11 +17,15 @@ function DrinkCard({ name, category, image }) {
           <p className="text-white text-base">{name}</p>
           <p className="text-stone-400 text-sm">{category}</p>
         </div>
-        <FiBookmark className="text-stone-400 hover:text-white cursor-pointer"/>
+        <FiBookmark className="text-stone-400 hover:text-white cursor-pointer" />
       </div>
       <div className="flex flex-row mb-4">
-        <p className="text-white text-xs bg-indigo-500 py-1 px-2 rounded-lg mr-2">Refreshing</p>
-        <p className="text-white text-xs bg-emerald-500 py-1 px-2 rounded-lg">Fruity</p>
+        {tags != null ? tags.split(',').slice(0, 3).map((tag) => (
+          <p className="text-white text-xs bg-zinc-700 py-1 px-2 rounded-lg mr-2">
+            {tag}
+          </p>
+        )) : null}
+        
       </div>
     </div>
   );
