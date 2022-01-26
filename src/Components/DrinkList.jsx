@@ -9,7 +9,7 @@ function DrinkList() {
   const [drinks, setDrinks] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
-  const [modalId, setModalId] = useState(false);
+  const [modalId, setModalId] = useState("");
 
   const apiKey = "9973533";
   const baseUrl = "https://www.thecocktaildb.com/api/json/v2/";
@@ -43,12 +43,12 @@ function DrinkList() {
     setModalVisible(!modalVisible);
   };
 
-  // const currentDrink = modalId ? drinks.find((drink) => drink.idDrink === modalId) : null
+  const currentDrink = modalId ? drinks.find((drink) => drink.idDrink === modalId) : null
 
   return (
     <div>
       <div className="w-full">
-        {modalVisible ? <DrinkModal modalToggle={modalToggle} currentDrink={currentDrink}/> : null}
+        {modalVisible ? <DrinkModal modalToggle={modalToggle} currentDrink={currentDrink} /> : null}
       </div>
       <div className="bg-black p-12">
         <h1 className="text-white text-4xl mb-8">Explore</h1>
@@ -59,18 +59,19 @@ function DrinkList() {
           />
           {filterVisible ? <DrinkFilter /> : null}
           <div className="grid grid-cols-3 gap-4">
-            {drinks.map((drinks) => (
+            {drinks.map((drink) => (
               <DrinkCard
-                key={drinks.idDrink}
-                name={drinks.strDrink}
-                category={drinks.strCategory}
-                image={drinks.strDrinkThumb}
+                key={drink.idDrink}
+                id={drink.idDrink}
+                name={drink.strDrink}
+                category={drink.strCategory}
+                image={drink.strDrinkThumb}
                 // onClick={() => {
                 //   clickHandler(drinks.strDrink);
                 // }}
-                tags={drinks.strTags}
+                tags={drink.strTags}
                 modalToggle={modalToggle}
-                onClick={setModalId(drinks.idDrink)}
+                setModalId={setModalId}
               />
             ))}
           </div>
