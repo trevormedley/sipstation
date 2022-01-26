@@ -1,12 +1,10 @@
 import React from "react";
 import { FiBookmark } from "react-icons/fi";
 
-function DrinkCard({ name, category, image, clickHandler, tags }) {
+function DrinkCard({ name, category, image, tags, modalToggle }) {
   
-  // const tagsArr = tags.split(',')
-
   return (
-    <div className="group hover:cursor-pointer" onClick={clickHandler}>
+    <div className="group hover:cursor-pointer" onClick={modalToggle}>
       <img
         className="rounded-md object-cover object-center h-40 w-full mb-3 group-hover:ease-in-out duration-300 group-hover:saturate-150"
         src={image}

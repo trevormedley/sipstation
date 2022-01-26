@@ -1,13 +1,12 @@
 import React from "react";
-import Modal from "react-modal";
 
-function DrinkModal({name}) {
-
+function DrinkModal({ modalToggle }) {
   return (
-    <div className="text-white z-1">
-      <Modal>
-        <h1>HI</h1>
-      </Modal>
+    <div className="w-full h-full p-28 fixed flex flex-col drop-shadow-xl bg-zinc-800 bg-opacity-90 z-50" onClick={modalToggle}>
+      <div className="bg-zinc-400 rounded-xl w-3/4 h-3/4 p-8">
+        <h1 className="text-white text-xl font-semibold">Hello</h1>
+        <button onClick={modalToggle}>close</button>
+      </div>
     </div>
   );
 }
