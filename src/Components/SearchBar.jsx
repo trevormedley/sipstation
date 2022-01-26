@@ -17,7 +17,7 @@ function SearchBar({ popularHandler, filterToggle }) {
           placeholder="Find a Drink"
           className="px-4 py-2 bg-[#42454B] rounded-lg mr-4"
         />
-        <button className="text-xs bg-zinc-700 px-4 p-2 rounded-lg flex flex-row items-center">
+        <button className="text-xs bg-zinc-700 px-4 p-2 rounded-lg flex flex-row items-center mr-4">
           <FiSearch className="mr-2" />
           Search
         </button>

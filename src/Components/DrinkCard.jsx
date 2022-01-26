@@ -1,10 +1,15 @@
 import React from "react";
 import { FiBookmark } from "react-icons/fi";
 
-function DrinkCard({ name, category, image, tags, modalToggle }) {
+function DrinkCard({ id, name, category, image, tags, modalToggle, setModalId }) {
+
+  const handleClick = id => {
+    modalToggle();
+    setModalId(id);
+  }
   
   return (
-    <div className="group hover:cursor-pointer" onClick={modalToggle}>
+    <div className="group hover:cursor-pointer" onClick={() => handleClick(id)}>
       <img
         className="rounded-md object-cover object-center h-40 w-full mb-3 group-hover:ease-in-out duration-300 group-hover:saturate-150"
         src={image}

@@ -30,11 +30,6 @@ function DrinkList() {
       .then((response) => setDrinks(response.data.drinks));
   };
 
-  // const clickHandler = (name) => {
-  //   <DrinkModal name={name} />;
-  //   console.log(`This drink is ${name}`);
-  // };
-
   const toggleHandler = () => {
     setFilterVisible(!filterVisible);
   };
@@ -43,12 +38,27 @@ function DrinkList() {
     setModalVisible(!modalVisible);
   };
 
-  // const currentDrink = modalId ? drinks.find((drink) => drink.idDrink === modalId) : null
+  const currentDrink = modalId
+    ? drinks.find((drink) => drink.idDrink === modalId)
+    : null;
 
   return (
     <div>
       <div className="w-full">
-        {modalVisible ? <DrinkModal modalToggle={modalToggle} currentDrink={currentDrink}/> : null}
+        {modalVisible ? (
+          <DrinkModal
+            modalToggle={modalToggle}
+            currentDrink={currentDrink}
+            image={currentDrink.strDrinkThumb}
+            tags={currentDrink.strTags}
+            name={currentDrink.strDrink}
+            category={currentDrink.strCategory}
+            alcoholic={currentDrink.strAcloholic}
+            glass={currentDrink.strGlass}
+            instructions={currentDrink.strInstructions}
+            video={currentDrink.strVideo}
+          />
+        ) : null}
       </div>
       <div className="bg-black p-12">
         <h1 className="text-white text-4xl mb-8">Explore</h1>
@@ -59,18 +69,16 @@ function DrinkList() {
           />
           {filterVisible ? <DrinkFilter /> : null}
           <div className="grid grid-cols-3 gap-4">
-            {drinks.map((drinks) => (
+            {drinks.map((drink) => (
               <DrinkCard
                 key={drinks.idDrink}
-                name={drinks.strDrink}
-                category={drinks.strCategory}
-                image={drinks.strDrinkThumb}
-                // onClick={() => {
-                //   clickHandler(drinks.strDrink);
-                // }}
-                tags={drinks.strTags}
+                id={drink.idDrink}
+                name={drink.strDrink}
+                category={drink.strCategory}
+                image={drink.strDrinkThumb}
+                tags={drink.strTags}
                 modalToggle={modalToggle}
-                onClick={setModalId(drinks.idDrink)}
+                setModalId={setModalId}
               />
             ))}
           </div>
