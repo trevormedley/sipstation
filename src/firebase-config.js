@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "firebase/firestore"
+import { getFirestore } from "firebase/firestore";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyATYtLCEhXj1is9wT3vIcRjfuPidoEy54I",
@@ -9,9 +10,27 @@ const firebaseConfig = {
   storageBucket: "sip-station.appspot.com",
   messagingSenderId: "257321904989",
   appId: "1:257321904989:web:6830428b3b8a98940716b4",
-  measurementId: "G-0FB0J6XEJF"
+  measurementId: "G-0FB0J6XEJF",
 };
 
 const app = initializeApp(firebaseConfig);
 
-export const db = getFirestore(app)
+export const db = getFirestore(app);
+export const auth = getAuth(app);
+
+const providerGoogle = new GoogleAuthProvider();
+
+export const signInWithGoogle = () => {
+  signInWithPopup(auth, providerGoogle)
+    .then((result) => {
+      const name = result.user.displayName;
+      const email = result.user.email;
+      const profilePic = result.user.photoURL;
+
+      console.log(name, email, profilePic)
+      localStorage.setItem("name", name);
+      localStorage.setItem("email", email);
+      localStorage.setItem("profilePic", profilePic);
+    })
+    .catch((error) => console.log(error));
+};

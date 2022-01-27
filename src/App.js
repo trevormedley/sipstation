@@ -1,19 +1,21 @@
-import NavBar from "./Components/NavBar";
-import NavLeft from "./Components/NavLeft";
-import DrinkList from "./Components/DrinkList";
-
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Explore from "./Pages/Explore";
+import Social from "./Pages/Social";
+import Home from "./Pages/Home";
+import Login from "./Pages/Login";
+import { useState, useEffect } from "react";
+import { auth } from "./firebase-config";
 
 function App() {
   return (
-    <div>
-      <NavBar />
-      <div className="relative min-h-screen flex">
-        <NavLeft />
-        <div className="w-full">
-          <DrinkList/>
-        </div>
-      </div>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/explore" element={<Explore />} />
+        <Route path="/social" element={<Social />} />
+      </Routes>
+    </Router>
   );
 }
 

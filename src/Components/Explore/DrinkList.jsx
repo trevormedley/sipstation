@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
-import DrinkCard from "./DrinkCard";
+import DrinkCard from "../DrinkCard";
 import axios from "axios";
 import SearchBar from "./SearchBar";
-import DrinkModal from "./DrinkModal";
+import DrinkModal from "../DrinkModal";
 import DrinkFilter from "./DrinkFilter";
 
 function DrinkList() {
@@ -16,10 +16,9 @@ function DrinkList() {
 
   useEffect(() => {
     async function fetchData() {
-      const request = await axios
+      await axios
         .get(`${baseUrl}${apiKey}/recent.php`)
         .then((response) => setDrinks(response.data.drinks));
-      return request;
     }
     fetchData();
   }, []);
@@ -67,7 +66,7 @@ function DrinkList() {
             popularHandler={popularHandle}
             filterToggle={toggleHandler}
           />
-          {filterVisible ? <DrinkFilter /> : null}
+          {filterVisible && <DrinkFilter />}
           <div className="grid grid-cols-3 gap-4">
             {drinks.map((drink) => (
               <DrinkCard
