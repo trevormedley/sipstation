@@ -27,7 +27,7 @@ export const signInWithGoogle = () => {
       const email = result.user.email;
       const profilePic = result.user.photoURL;
 
-      console.log(name, email, profilePic)
+      console.log(name, email, profilePic);
       localStorage.setItem("name", name);
       localStorage.setItem("email", email);
       localStorage.setItem("profilePic", profilePic);

@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { FiFilter, FiSearch } from "react-icons/fi";
 
-function SearchBar({ popularHandler, filterToggle }) {
+function SearchBar({ popularHandler, filterToggle, searchHandle }) {
+  const [searchTerm, setSearchTerm] = useState('')
+
   return (
     <div className="flex flex-row justify-between mb-8 text-white items-center">
       <div className="flex flex-row">
@@ -17,7 +19,7 @@ function SearchBar({ popularHandler, filterToggle }) {
           placeholder="Find a Drink"
           className="px-4 py-2 bg-[#42454B] rounded-lg mr-4"
         />
-        <button className="text-xs bg-zinc-700 px-4 p-2 rounded-lg flex flex-row items-center mr-4">
+        <button className="text-xs bg-zinc-700 px-4 p-2 rounded-lg flex flex-row items-center mr-4" onClick={searchHandle}>
           <FiSearch className="mr-2" />
           Search
         </button>

@@ -1,8 +1,51 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaGlassWhiskey, FaGoogle } from "react-icons/fa";
-import { signInWithGoogle,} from "../firebase-config";
+import { signInWithGoogle } from "../firebase-config";
+import { auth, db } from "../firebase-config";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 function LoginModule() {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const { user } = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password,
+      );
+      const userRef = doc(db, "users", user.uid)
+      const payload = {
+        name: name,
+        email: user.email,
+        password: password
+      };
+      await setDoc(userRef, payload);
+    } catch (error) {
+      console.log("error", error);
+    }
+    setName("");
+    setEmail("");
+    setPassword("");
+  };
+
   return (
     <div className="text-white bg-zinc-800 p-16 rounded-xl">
       <h1 className="text-white font-black italic mb-8 flex flex-row items-center">
@@ -27,30 +70,39 @@ function LoginModule() {
         <p className="text-sm">OR</p>
         <div className="h-1 w-1/3 bg-zinc-600"></div>
       </div>
-      <form className="flex flex-col">
+      <form className="flex flex-col" onSubmit={handleSubmit}>
         <label htmlFor="name" className="text-sm">
           Name
         </label>
         <input
-          type="text"
+          type="name"
+          name="name"
+          value={name}
           id="name"
           className="w-full py-1 px-2 bg-zinc-600 rounded-lg mt-1 mb-4"
+          onChange={handleNameChange}
         />
         <label htmlFor="email" className="text-sm">
           Email
         </label>
         <input
           type="email"
+          name="email"
+          value={email}
           id="email"
           className="w-full py-1 px-2 bg-zinc-600 rounded-lg mt-1 mb-4"
+          onChange={handleEmailChange}
         />
         <label htmlFor="password" className="text-sm">
           Password
         </label>
         <input
           type="password"
+          name="password"
+          value={password}
           id="password"
           className="w-full py-1 px-2 bg-zinc-600 rounded-lg mt-1 mb-4"
+          onChange={handlePasswordChange}
         />
         <button className="p-2 rounded-lg bg-emerald-700">
           Create my Account
