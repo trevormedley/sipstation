@@ -3,7 +3,6 @@ import Explore from "./Pages/Explore";
 import Social from "./Pages/Social";
 import Home from "./Pages/Home";
 import Login from "./Pages/Login";
-import { useState, useEffect } from "react";
 import { auth } from "./firebase-config";
 
 function App() {

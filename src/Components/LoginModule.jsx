@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaGlassWhiskey, FaGoogle } from "react-icons/fa";
 import { signInWithGoogle } from "../firebase-config";
-import { auth, db } from "../firebase-config";
+import { db, auth } from "../firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -29,13 +29,13 @@ function LoginModule() {
       const { user } = await createUserWithEmailAndPassword(
         auth,
         email,
-        password,
+        password
       );
-      const userRef = doc(db, "users", user.uid)
+      const userRef = doc(db, "users", user.uid);
       const payload = {
         name: name,
         email: user.email,
-        password: password
+        password: password,
       };
       await setDoc(userRef, payload);
     } catch (error) {
@@ -45,6 +45,7 @@ function LoginModule() {
     setEmail("");
     setPassword("");
   };
+  
 
   return (
     <div className="text-white bg-zinc-800 p-16 rounded-xl">

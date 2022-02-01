@@ -2,6 +2,8 @@ import React from "react";
 import { BiCategoryAlt } from "react-icons/bi";
 import { FaGlassMartiniAlt, FaYoutube } from "react-icons/fa";
 import { FiBookmark, FiXCircle } from "react-icons/fi";
+import { doc, setDoc } from "firebase/firestore";
+import { db } from "../firebase-config";
 
 function DrinkModal({
   modalToggle,
@@ -14,6 +16,19 @@ function DrinkModal({
   instructions,
   video,
 }) {
+
+  const bookmarkHandler = () => {
+    const userRef = doc(db, "/users/O258rh9Br6Z8S5wL52la74lkfus2/bookmarked", currentDrink.idDrink);
+    const payload = {
+      name: currentDrink.strDrink,
+      category: currentDrink.strCategory,
+      alcoholic: currentDrink.strAlcoholic,
+      image: currentDrink.strDrinkThumb,
+      glass: currentDrink.strGlass,
+    };
+    setDoc(userRef, payload);
+  };
+
   return (
     <div className="w-full h-full p-28 fixed flex flex-col drop-shadow-xl bg-zinc-700 bg-opacity-80 z-50 overflow-scroll">
       <FiXCircle
@@ -60,7 +75,10 @@ function DrinkModal({
         <div className="w-3/4">
           <div className="mb-3 flex flex-row items-center justify-between">
             <h1 className="text-white text-4xl">{name}</h1>
-            <button className="py-2 px-4 text-white bg-emerald-600 text-xs rounded-md flex flex-row items-center">
+            <button
+              onClick={bookmarkHandler}
+              className="py-2 px-4 text-white bg-emerald-600 text-xs rounded-md flex flex-row items-center"
+            >
               <FiBookmark className="mr-1" />
               Bookmark
             </button>

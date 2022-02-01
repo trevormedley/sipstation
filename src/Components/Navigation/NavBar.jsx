@@ -1,10 +1,13 @@
 import React from "react";
 import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
-import {FaGlassWhiskey} from "react-icons/fa"
+import { FaGlassWhiskey } from "react-icons/fa";
+import { getAuth } from "firebase/auth";
 
 function NavBar() {
-  const username = window.localStorage.getItem('name');
-  const profilePic = window.localStorage.getItem('profilePic');
+  const auth = getAuth();
+  console.log(auth);
+
+  const img = auth.currentUser.photoURL
 
   return (
     <div className="w-full bg-[#27292C]  p-8 flex flex-row items-center justify-between sticky top-0 z-10">
@@ -19,8 +22,13 @@ function NavBar() {
           <GiPerspectiveDiceSixFacesRandom className="mr-2" />
           Random Drink
         </button>
-        <p className="text-neutral-400 font-light">{`Hello, ${username}`}</p>
-        <img src={profilePic} alt="userimage" className="w-12 h-12 rounded-full ml-4"/>
+        <p className="text-neutral-400 font-light">{`Hello, ${auth.currentUser.displayName}`}</p>
+        {/* {img != null ? (<img
+          src={auth.currentUser.photoURL}
+          alt="userimage"
+          className="w-12 h-12 rounded-full ml-4"
+        />) : null} */}
+        
       </div>
     </div>
   );
