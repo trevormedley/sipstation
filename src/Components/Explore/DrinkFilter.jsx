@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import FilterRow from "./FilterRow";
 
-function DrinkFilter() {
+function DrinkFilter({ setFilterString, filterSearch }) {
   const [ingredients, setInredients] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterIngredient, setFilterIngredient] = useState([]);
@@ -20,8 +20,20 @@ function DrinkFilter() {
     return () => (isMounted.current = false);
   }, []);
 
+  const clickHandler = (event) => {
+    const value = event.target.innerText;
+    setFilterIngredient((filterIngredient) => [...filterIngredient, value]);
+    setFilterString(filterIngredient.toString().replace(/\s/g, "_"));
+  };
+
+  const clearList = (e) => {
+    e.preventDefault();
+    setFilterIngredient([]);
+  };
+
+
   return (
-    <div className="mb-8">
+    <div className="mb-8 h-48">
       <form className="grid grid-cols-2 gap-4 text-white">
         <div className="bg-zinc-700 p-4 rounded-lg h-48 overflow-scroll">
           <input
@@ -45,16 +57,34 @@ function DrinkFilter() {
               }
             })
             .map((drink) => (
-              <FilterRow name={drink.strIngredient1} id={drink.key} />
+              <FilterRow
+                name={drink.strIngredient1}
+                key={drink.strIngredient1}
+                test={clickHandler}
+              />
             ))}
         </div>
-        <div className="bg-zinc-700 p-4 rounded-lg h-48 overflow-scroll flex flex-col justify-between">
-          <div>
-            {filterIngredient.map((drink) => (
-              <FilterRow name={drink.strIngredient1} key={drink.key} />
-            ))}
+        <div className="flex flex-col justify-between">
+          <div className="bg-zinc-700 p-4 rounded-lg h-32 overflow-scroll flex flex-col justify-between">
+            <div>
+              {filterIngredient.map((drink) => (
+                <div className="p-2 mb-1 hover:bg-zinc-600 rounded-lg">
+                  <p className="text-xs">{drink}</p>
+                </div>
+              ))}
+            </div>
           </div>
-          <div></div>
+          <div className="text-white grid grid-cols-2 gap-2">
+            <button
+              className="bg-green-600 py-2 rounded-lg"
+              onClick={filterSearch}
+            >
+              Search
+            </button>
+            <button className="bg-red-600 py-2 rounded-lg" onClick={clearList}>
+              Clear
+            </button>
+          </div>
         </div>
       </form>
     </div>

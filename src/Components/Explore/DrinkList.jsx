@@ -4,13 +4,15 @@ import axios from "axios";
 import DrinkModal from "../DrinkModal";
 import DrinkFilter from "./DrinkFilter";
 import { FiFilter, FiSearch } from "react-icons/fi";
+import { GiPerspectiveDiceSixFacesRandom } from "react-icons/gi";
 
 function DrinkList() {
   const [drinks, setDrinks] = useState([]);
   const [filterVisible, setFilterVisible] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalId, setModalId] = useState(false);
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filterString, setFilterString] = useState("");
 
   const apiKey = "9973533";
   const baseUrl = "https://www.thecocktaildb.com/api/json/v2/";
@@ -23,6 +25,15 @@ function DrinkList() {
     }
     fetchData();
   }, []);
+
+  const filterHandle = (e) => {
+    e.preventDefault()
+    axios
+      .get(`${baseUrl}${apiKey}//filter.php?i=${filterString}`)
+      .then((response) => setDrinks(response.data.drinks));
+  };
+
+  console.log(filterString)
 
   const popularHandle = () => {
     axios
@@ -45,6 +56,12 @@ function DrinkList() {
   const searchHandle = () => {
     axios
       .get(`${baseUrl}${apiKey}/search.php?s=${searchTerm}`)
+      .then((response) => setDrinks(response.data.drinks));
+  };
+
+  const randomHandle = () => {
+    axios
+      .get(`${baseUrl}${apiKey}/randomselection.php`)
       .then((response) => setDrinks(response.data.drinks));
   };
 
@@ -71,22 +88,15 @@ function DrinkList() {
         <div className="w-full h-full bg-[#27292C] rounded-2xl p-8">
           <div className="flex flex-row justify-between mb-8 text-white items-center">
             <div className="flex flex-row">
-              <select
-                name="sort"
-                id="sort"
-                className="px-2 py-2 bg-[#42454B] rounded-lg mr-4"
-              >
-                <option value="recent">Recently Added</option>
-                <option value="popular">Popular</option>
-                <option value="random">Random</option>
-              </select>
               <input
                 type="text"
                 name="search"
                 id="search"
                 placeholder="Find a Drink"
-                className="px-4 py-2 bg-[#42454B] rounded-lg mr-4"
-                onChange={(e) => {setSearchTerm(e.target.value)}}
+                className="px-4 py-3 bg-[#42454B] rounded-lg mr-4 w-60"
+                onChange={(e) => {
+                  setSearchTerm(e.target.value);
+                }}
               />
               <button
                 className="text-xs bg-zinc-700 px-4 p-2 rounded-lg flex flex-row items-center mr-4"
@@ -95,28 +105,52 @@ function DrinkList() {
                 <FiSearch className="mr-2" />
                 Search
               </button>
-              <button onClick={popularHandle} className="text-white text-xs bg-zinc-700 px-4 p-2 rounded-lg flex flex-row items-center">
+              <button
+                onClick={popularHandle}
+                className="text-white text-xs bg-zinc-700 px-4 p-2 rounded-lg flex flex-row items-center mr-4"
+              >
                 Popular Drinks
               </button>
+              <button
+                onClick={randomHandle}
+                className="text-white text-xs bg-zinc-700 px-4 p-2 rounded-lg flex flex-row items-center"
+              >
+                <GiPerspectiveDiceSixFacesRandom className="text-lg mr-1" />
+                Random
+              </button>
             </div>
-            <FiFilter onClick={toggleHandler} className="hover: cursor-pointer" />
+            <FiFilter
+              onClick={toggleHandler}
+              className="hover: cursor-pointer"
+            />
           </div>
-          {filterVisible ? <DrinkFilter /> : null}
-          <div className="grid grid-cols-3 gap-4"> 
-          {drinks !== null ? drinks.map((drink) => (
-            <DrinkCard 
-              key={drinks.idDrink}
-              id={drink.idDrink}
-              name={drink.strDrink}
-              category={drink.strCategory}
-              image={drink.strDrinkThumb}
-              tags={drink.strTags}
-              modalToggle={modalToggle}
-              setModalId={setModalId}
-            />))
-          : (<div>
-            <h1 className="text-white text-center">No Results! Search something else (:</h1>
-          </div>)}      
+          {filterVisible ? (
+            <DrinkFilter
+              setFilterString={setFilterString}
+              filterSearch={filterHandle}
+            />
+          ) : null}
+          <div className="grid grid-cols-3 gap-4">
+            {drinks !== null ? (
+              drinks.map((drink) => (
+                <DrinkCard
+                  key={drinks.idDrink}
+                  id={drink.idDrink}
+                  name={drink.strDrink}
+                  category={drink.strCategory}
+                  image={drink.strDrinkThumb}
+                  tags={drink.strTags}
+                  modalToggle={modalToggle}
+                  setModalId={setModalId}
+                />
+              ))
+            ) : (
+              <div>
+                <h1 className="text-white text-center">
+                  No Results! Search something else (:
+                </h1>
+              </div>
+            )}
           </div>
         </div>
       </div>

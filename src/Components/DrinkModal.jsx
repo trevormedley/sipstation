@@ -3,7 +3,7 @@ import { BiCategoryAlt } from "react-icons/bi";
 import { FaGlassMartiniAlt, FaYoutube } from "react-icons/fa";
 import { FiBookmark, FiXCircle } from "react-icons/fi";
 import { doc, setDoc } from "firebase/firestore";
-import { db } from "../firebase-config";
+import { db, auth } from "../firebase-config";
 
 function DrinkModal({
   modalToggle,
@@ -18,7 +18,8 @@ function DrinkModal({
 }) {
 
   const bookmarkHandler = () => {
-    const userRef = doc(db, "/users/O258rh9Br6Z8S5wL52la74lkfus2/bookmarked", currentDrink.idDrink);
+    const user = auth.currentUser.uid
+    const userRef = doc(db, `/users/${user}/bookmarked`, currentDrink.idDrink);
     const payload = {
       name: currentDrink.strDrink,
       category: currentDrink.strCategory,
